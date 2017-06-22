@@ -1,0 +1,28 @@
+{
+  "name": "omegawebexplorer",
+  "version": "1.0.0",
+  "description": "a web file manager to explore and download files",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crazycoder1999/OmegaWebExplorer.git"
+  },
+  "keywords": [
+    "explorer",
+    "filemanager",
+    "web"
+  ],
+  "author": "Andrea De Gaetano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/crazycoder1999/OmegaWebExplorer/issues"
+  },
+  "homepage": "https://github.com/crazycoder1999/OmegaWebExplorer#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "express-handlebars": "^3.0.0"
+  }
+}
