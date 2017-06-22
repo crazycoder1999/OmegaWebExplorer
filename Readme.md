@@ -8,7 +8,7 @@ This file manager is able to:
 * explore a filesystem
 * download files through a web interface
 
-![Screenshot](https://github.com/crazycoder1999/OmegaWebExplorer/sample/1.png)
+![Screenshot](https://raw.githubusercontent.com/crazycoder1999/OmegaWebExplorer/master/sample/1.png)
 
 ## Installation
 You need nodejs installed: I used the 5.2.0 version
