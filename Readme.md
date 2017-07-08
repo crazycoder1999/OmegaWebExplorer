@@ -7,6 +7,8 @@ I created this project for 2 reasons:
 This file manager is able to:
 * explore a filesystem
 * download files through a web interface
+* upload a file
+* delete a file
 
 ![Screenshot](https://raw.githubusercontent.com/crazycoder1999/OmegaWebExplorer/master/sample/1.png)
 
@@ -18,4 +20,4 @@ You need nodejs installed: I used the 5.2.0 version
 * run the application with **node app.js**
 * open the browser on http://127.0.0.1:8000
 
-The software is tested on OSX...but it should run on Linux too.
+The software is tested on OSX and Linux (raspberry pi zero / raspbian).

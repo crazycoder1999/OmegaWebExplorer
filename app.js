@@ -1,28 +1,77 @@
 //Made By Andrea De Gaetano, @dega1999 , on github crazycoder1999
 var express = require('express');
+var multer = require('multer')
 var FileData = require('./FileData.js');
+var FileUtils = require('./FileUtils.js');
 var Config = require("./Config.js");
 var config = new Config();
 var app = express();
 var fs = require('fs');
-var pathLib = require('path');
 var rootPath = config.rootPath;
+var fileUtils = new FileUtils(rootPath);
 var handlebars = require('express-handlebars').create({
     defaultLayout: 'main'
 });
 
+var uploadMulter = multer({
+        dest: __dirname + "/temporary",
+        limits: {fileSize: config.fileSizeUpload, files:1},
+});
+
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-
+console.log(""+__dirname + '/resources');
+app.use(express.static(__dirname + '/resources/'));
 app.set('port', process.env.port || 8000);
 
 app.get('/', function (req, res) {
     res.redirect("/browse")
 });
 
+app.post('/upload' , uploadMulter.any(),function (req,res) {
+
+    path = fileUtils.normalizeAndCheck(req.body.path);
+    if( path === undefined ) {
+        res.send("You can't upload file here");
+        return;
+    }
+
+    if ( req.files.length === 0 ){
+        res.send("Error: No File To Upload..");
+        return;
+    }
+
+    var theFile = req.files[0];
+    fs.rename(theFile.path, path + theFile.originalname, function (err) {
+        
+        console.log("moving from " + theFile.path + " to " + path);
+        if (err) {
+            console.log("error renaming file once uploaded " + err);
+            res.send("Sorry, operation aborted.");
+            fs.unlink(theFile.path);
+            return;
+        }
+
+        timedRedirect(res,"Upload Completed.","/browse?path=" + path);            
+    });
+
+});
+
+app.get('/delete',function (req,res) {
+    fullpath = req.query.path + "/" + req.query.filename;
+    fullpath = fileUtils.normalizeAndCheck(fullpath);
+
+    if( fullpath === undefined ) {
+        res.send("You shall not pass!");
+        return;
+    }
+    fs.unlink(fullpath);
+    timedRedirect(res,"Delete Completed.","/browse?path=" + req.query.path);
+});
+
 app.get('/download',function (req,res) {
-    path = pathLib.normalize(req.query.path);
-    if( ! path.startsWith( rootPath ) ) {
+    path = fileUtils.normalizeAndCheck(req.query.path);
+    if( path === undefined ) {
         res.send("You shall not pass!");
         return;
     }
@@ -52,15 +101,12 @@ app.get('/browse', function (req, res) {
         path = req.query.path;
     }    
 
-    path = pathLib.normalize(path);
-    if( path === rootPath ) { 
-        path += "/";
-    }
-    console.log("actual Path >>"+path+"<<");
-    if( ! path.startsWith( rootPath ) ) {
+    path = fileUtils.normalizeAndCheck(path);
+    if( path === undefined ) {
         res.send("You shall not pass!");
         return;
     }
+    console.log("actual Path >>"+path+"<<");
 
     fs.lstat(path, (err, stats) => {
 
@@ -85,7 +131,6 @@ app.get('/browse', function (req, res) {
                     }
                     
                     if( path !== rootPath + "/" ) {                                          
-                        //var fileData = { fname: "..", size: 0, isFiles: false };
                         var fileData = new FileData().dotDot();
                         theFiles.splice(0, 0, fileData);
                     }
@@ -98,6 +143,10 @@ app.get('/browse', function (req, res) {
     });
 
 });
+
+function timedRedirect(res,message,destination) {
+    res.render('temporarymsg', { message: message, path: destination });
+}
 
 app.use(function (req, res) {
     res.type("text/plain");

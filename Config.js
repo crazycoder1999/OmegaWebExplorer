@@ -2,6 +2,7 @@
 
 function Config() {
     this.rootPath = "/tmp";
+    this.fileSizeUpload = 1024 * 1000 * 1000 * 2; //2 GB
 }
 
 module.exports = Config;

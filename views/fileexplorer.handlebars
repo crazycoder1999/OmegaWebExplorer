@@ -1,7 +1,18 @@
 <h1>Your Files in {{path}}</h1>
 <p>{{error}}</p>
+
+<form action="upload" method="POST" enctype="multipart/form-data">
+  Select an image to upload:
+  <input type="file" name="theFile" style="width: 100%"> 
+  <input type="text" name="path" value="{{path}}" hidden/>
+  <input type="submit" value="Upload">
+</form>
 <table width="100%">
-        <tr><th align="left">Filename</th><th align="left">Size</th><th align="left">Action</th></tr>
+        <tr>
+                <th align="left">Filename</th>
+                <th align="left">Size</th>
+                <th align="left">Action</th>
+        </tr>
         {{#each ffiles}}
         <tr>
                 {{#if this.isFile}}
@@ -11,7 +22,10 @@
                 {{/if}}
                 <td>{{this.size}}</td>
                 {{#if this.isFile}}
-                        <td><a href="/download?path={{../path}}/{{this.fname}}">Download</a></td>
+                        <td>
+                                <a href="/download?path={{../path}}/{{this.fname}}">Download</a>
+                                <a href="#" onclick="deleteTheFile('{{{../path}}}','{{{this.fname}}}')">Delete</a>
+                        </td>
                 {{else}}
                         <td>...</td>
                 {{/if}}
