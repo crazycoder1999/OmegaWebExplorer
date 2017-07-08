@@ -20,4 +20,9 @@ You need nodejs installed: I used the 5.2.0 version
 * run the application with **node app.js**
 * open the browser on http://127.0.0.1:8000
 
+## Configuration
+The file Config.js contains:
+- rootPath: the root folder. The software consider path starting only from rootPath
+- fileSizeUpload: the limit of uploadable file
+
 The software is tested on OSX and Linux (raspberry pi zero / raspbian).
