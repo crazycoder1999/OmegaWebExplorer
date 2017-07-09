@@ -42,7 +42,7 @@ app.post('/upload' , uploadMulter.any(),function (req,res) {
     }
 
     var theFile = req.files[0];
-    fs.rename(theFile.path, path + theFile.originalname, function (err) {
+    fs.rename(theFile.path, path + '/' + theFile.originalname, function (err) {
         
         console.log("moving from " + theFile.path + " to " + path);
         if (err) {
@@ -67,6 +67,21 @@ app.get('/delete',function (req,res) {
     }
     fs.unlink(fullpath);
     timedRedirect(res,"Delete Completed.","/browse?path=" + req.query.path);
+});
+
+app.get('/createFolder',function (req,res){
+    path = fileUtils.normalizeAndCheck(req.query.path);
+    if( path === undefined ) {
+        res.send("You shall not pass!");
+        return;
+    }
+    fs.mkdir(path + "/" + req.query.folderName,function(err) {
+        if(err) {
+            timedRedirect(res,"Unable to create folder","/browse?path=" + req.query.path);
+        } else {
+            timedRedirect(res,"Folder Created.","/browse?path=" + req.query.path);
+        }
+    });
 });
 
 app.get('/download',function (req,res) {
@@ -134,7 +149,9 @@ app.get('/browse', function (req, res) {
                         var fileData = new FileData().dotDot();
                         theFiles.splice(0, 0, fileData);
                     }
-                    res.render('fileexplorer', { path: path, ffiles: theFiles });
+                    var splittedPaths = path.split("/");
+                    console.log(splittedPaths);
+                    res.render('fileexplorer', { path: path, ffiles: theFiles , splittedPaths: splittedPaths});
                 }
             });
         } else {

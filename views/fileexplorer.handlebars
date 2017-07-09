@@ -1,13 +1,42 @@
-<h1>Your Files in {{path}}</h1>
+
+<h1>Your Files</h1>
 <p>{{error}}</p>
 
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">&Omega;</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="#" onclick="createFolder('{{{path}}}')">Create New Folder</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 <form action="upload" method="POST" enctype="multipart/form-data">
-  Select an image to upload:
-  <input type="file" name="theFile" style="width: 100%"> 
+  Select a file to upload:
+  <input type="file" name="theFile"> 
   <input type="text" name="path" value="{{path}}" hidden/>
-  <input type="submit" value="Upload">
+  <input type="submit" class="btn btn-primary" value="Upload">  
 </form>
-<table width="100%">
+
+<ol class="breadcrumb">
+        {{#each splittedPaths}}
+                <li>{{this}}</li>
+        {{/each}}
+</ol>
+<table class="table" width="100%">
         <tr>
                 <th align="left">Filename</th>
                 <th align="left">Size</th>
@@ -23,8 +52,10 @@
                 <td>{{this.size}}</td>
                 {{#if this.isFile}}
                         <td>
-                                <a href="/download?path={{../path}}/{{this.fname}}">Download</a>
-                                <a href="#" onclick="deleteTheFile('{{{../path}}}','{{{this.fname}}}')">Delete</a>
+                                <a href="/download?path={{../path}}/{{this.fname}}" class="btn btn-primary" role="button">Download</a>
+                                <button type="button" class="btn btn-danger" onclick="deleteTheFile('{{{../path}}}','{{{this.fname}}}')">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Delete
+                                </button>
                         </td>
                 {{else}}
                         <td>...</td>
