@@ -9,6 +9,7 @@ This file manager is able to:
 * download files through a web interface
 * upload a file
 * delete a file
+* create a folder
 
 ![Screenshot](https://raw.githubusercontent.com/crazycoder1999/OmegaWebExplorer/master/sample/1.png)
 

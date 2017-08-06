@@ -9,6 +9,7 @@ var app = express();
 var fs = require('fs');
 var rootPath = config.rootPath;
 var fileUtils = new FileUtils(rootPath);
+var mv = require('mv');
 var handlebars = require('express-handlebars').create({
     defaultLayout: 'main'
 });
@@ -42,7 +43,7 @@ app.post('/upload' , uploadMulter.any(),function (req,res) {
     }
 
     var theFile = req.files[0];
-    fs.rename(theFile.path, path + '/' + theFile.originalname, function (err) {
+    mv(theFile.path, path + '/' + theFile.originalname, function (err) {
         
         console.log("moving from " + theFile.path + " to " + path);
         if (err) {
