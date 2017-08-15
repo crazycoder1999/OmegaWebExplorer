@@ -4,6 +4,8 @@ var multer = require('multer')
 var FileData = require('./FileData.js');
 var FileUtils = require('./FileUtils.js');
 var Config = require("./Config.js");
+var Extra = require("./Extra.js");
+var extra = new Extra();
 var config = new Config();
 var app = express();
 var fs = require('fs');
@@ -28,6 +30,9 @@ app.set('port', process.env.port || 8000);
 app.get('/', function (req, res) {
     res.redirect("/browse")
 });
+
+if(config.extra)
+    extra.setupApi(app);
 
 app.post('/upload' , uploadMulter.any(),function (req,res) {
 
@@ -128,7 +133,7 @@ app.get('/browse', function (req, res) {
 
         if (err) {
             console.log("ERR: "+err);
-            res.render('fileexplorer', { error: err });            
+            res.render('fileexplorer', { error: err });       
             return;
         }
         console.log('Is directory: ${stats.isDirectory()}');
@@ -152,7 +157,7 @@ app.get('/browse', function (req, res) {
                     }
                     var splittedPaths = path.split("/");
                     console.log(splittedPaths);
-                    res.render('fileexplorer', { path: path, ffiles: theFiles , splittedPaths: splittedPaths});
+                    res.render('fileexplorer', { extraEnabled:config.extra, path: path, ffiles: theFiles , splittedPaths: splittedPaths});
                 }
             });
         } else {

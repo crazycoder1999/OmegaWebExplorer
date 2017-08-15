@@ -11,6 +11,8 @@ This file manager is able to:
 * delete a file
 * create a folder
 
+It is expandable with custom pages.
+
 ![Screenshot](https://raw.githubusercontent.com/crazycoder1999/OmegaWebExplorer/master/sample/1.png)
 
 ## Installation
@@ -25,5 +27,9 @@ You need nodejs installed: I used the 5.2.0 version
 The file Config.js contains:
 - rootPath: the root folder. The software consider path starting only from rootPath
 - fileSizeUpload: the limit of uploadable file
+- extra: true, add an external page for customize the web pages /extra. false, disabled it
 
 The software is tested on OSX and Linux (raspberry pi zero / raspbian).
+
+## Customization
+If you would like to add specific application features like new pages or new api, you can see: extra.handlebars,Extra.js. You need to enable config.extra.
