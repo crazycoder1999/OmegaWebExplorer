@@ -14,11 +14,16 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="#" onclick="createFolder('{{{path}}}')">Create New Folder</a></li>
-                {{#if extraEnabled}}
-                        <li><a href="/extra">Extra</a></li>
-                {{/if}}
-      </ul>
+        <li>
+                <a href="#" onclick="createFolder('{{{path}}}')">Create New Folder</a>
+        </li>
+        <li>
+                <a href="/browse?path={{{path}}}/..">UP &#8679;</a>                
+        </li>
+        {{#if extraEnabled}}
+                <li><a href="/extra">Extra</a></li>
+        {{/if}}
+      </ul>      
     </div>
   </div>
 </nav>
